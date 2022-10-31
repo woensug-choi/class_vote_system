@@ -1,0 +1,10 @@
+{% extends "base.html"  %}
+{% block content %}
+    <h1>List of Classes</h1>
+    <p>Click name of the class.</p>
+    <ul>
+        {% for data in template_classes %}
+        <li><a href="/{{data['text']}}">{{data['text']}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

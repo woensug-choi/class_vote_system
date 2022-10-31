@@ -191,21 +191,36 @@ def poll_detail(request, poll_id):
 def poll_vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     choice_id = request.POST.get('choice')
-    if not poll.user_can_vote(request.user):
-        messages.error(
-            request, "You already voted this poll!", extra_tags='alert alert-warning alert-dismissible fade show')
-        return redirect("polls:list")
+    # if not poll.user_can_vote(request.user):
+    #     messages.error(
+    #         request, "You already voted this poll!", extra_tags='alert alert-warning alert-dismissible fade show')
+    #     return redirect("polls:list")
 
-    if choice_id:
-        choice = Choice.objects.get(id=choice_id)
-        vote = Vote(user=request.user, poll=poll, choice=choice)
+    # if choice_id:
+    #     choice = Choice.objects.get(id=choice_id)
+    #     vote = Vote(user=request.user, poll=poll, choice=choice)
+    #     vote.save()
+    #     print(vote)
+    #     return render(request, 'polls/poll_result.html', {'poll': poll})
+    # else:
+    #     messages.error(
+    #         request, "No choice selected!", extra_tags='alert alert-warning alert-dismissible fade show')
+    #     return redirect("polls:detail", poll_id)
+    
+    if Choice.objects.filter(poll=poll).get(choice_text=choice_id): # if the choice 
+        # if user vote exists
+        user_votes = request.user.vote_set.all()
+        qs = user_votes.filter(poll=poll)
+        if qs.exists():
+            user_votes.delete()
+        vote = Vote(user=request.user, poll=poll, choice=Choice.objects.filter(poll=poll).get(choice_text=choice_id))
         vote.save()
-        print(vote)
         return render(request, 'polls/poll_result.html', {'poll': poll})
-    else:
+    else: # if the noice is new
         messages.error(
-            request, "No choice selected!", extra_tags='alert alert-warning alert-dismissible fade show')
+            request, "Wrong setting! Add choices from 0 to 10", extra_tags='alert alert-warning alert-dismissible fade show')
         return redirect("polls:detail", poll_id)
+
     return render(request, 'polls/poll_result.html', {'poll': poll})
 
 

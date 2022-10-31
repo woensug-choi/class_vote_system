@@ -19,11 +19,14 @@
     <h2 class="mt-3 mb-3">{{ poll }}</h2>
     <form action="{% url 'polls:vote' poll.id %}" method="POST">
         {% csrf_token %}
-        {% for choice in poll.choice_set.all %}
+        <!-- {% for choice in poll.choice_set.all %}
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
         <br>
-        {% endfor %}
+        {% endfor %} -->
+        <div class="slidecontainer">
+            <input type="range" name="choice" min="0" max="10" value="{{ choice.id }}" class="slider" id="rangeSlect">
+          </div>
         <input type="submit" value="Vote" class="btn btn-primary mt-3">
         <a class="btn btn-warning mt-3" href="{% url 'polls:list' %}" role="button">Cancel</a>
     </form>
