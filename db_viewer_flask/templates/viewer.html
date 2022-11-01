@@ -3,7 +3,9 @@
     <body style="background-color: hsl( {{color_scale}} , 100%, 50%)">
         <h2>   {{ class_name }}</h2>
         <ul>
-            Refresh every 10 seconds
+            Vote at 141.147.169.204:8080
+            <br><br>
+            Refresh every 5 seconds
             <br><br>
             total votes : {{ total_votes }}
             <br><br>
@@ -13,7 +15,7 @@
         </ul>
     </body> 
     <script>
-        setTimeout('location.reload()', 10000);
+        setTimeout('location.reload()', 5000);
     </script>
 {% endblock %}
 

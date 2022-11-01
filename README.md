@@ -30,4 +30,15 @@ ALLOWED_HOSTS = ['*']
     python app.py
     ```
     
-- Make service\
+- Make service
+
+   ```
+   sudo nano /etc/systemd/system/vote_system.service
+   sudo nano /etc/systemd/system/vote_viewer.service
+
+   sudo systemctl daemon-reload
+   sudo systemctl enable vote_system.service
+   sudo systemctl enable vote_viewer.service
+   sudo systemctl start vote_system.service
+   sudo systemctl start vote_viewer.service
+   ```

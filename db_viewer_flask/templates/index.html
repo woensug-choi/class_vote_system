@@ -6,5 +6,9 @@
         {% for data in template_classes %}
         <li><a href="/{{data['text']}}">{{data['text']}}</a></li>
         {% endfor %}
+        <br><br>
+        <form method="POST" action="/">
+            <input type="submit" name="reset" value="Reset Votes">
+        </form>
     </ul>
 {% endblock %}

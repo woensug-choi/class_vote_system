@@ -3,7 +3,7 @@ import sqlite3, time
 
 # Connect to sqlite database
 def update_database():
-    conn = sqlite3.connect("../db.sqlite3")
+    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM polls_poll")
@@ -11,7 +11,7 @@ def update_database():
 # conn.close()
 
 def resetVotes():
-    conn = sqlite3.connect("../db.sqlite3")
+    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("DELETE FROM polls_vote")
@@ -21,7 +21,7 @@ def resetVotes():
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     # Update class list
     list_class = update_database()
@@ -29,6 +29,17 @@ def index():
     classes = []
     for item in list_class:
         classes.append({k: item[k] for k in item.keys()})
+
+    # If reset bottom is clicked
+    if request.method == 'POST':
+        if request.form.get('reset'):
+            resetVotes()
+        else:
+            pass
+    elif request.method == 'GET':
+        return render_template("index.html", 
+        template_classes = classes)
+    
     return render_template("index.html", 
         template_classes = classes)
 
@@ -43,7 +54,7 @@ def subpage(class_name):
         if item[1] == class_name:
             classID = item[0]
     # Get Votes from sqllite
-    conn = sqlite3.connect("../db.sqlite3")
+    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM polls_vote")
@@ -78,4 +89,4 @@ def subpage(class_name):
         class_name=class_name, total_votes = totalVotes, color_scale = color)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=False)
