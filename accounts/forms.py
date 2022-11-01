@@ -7,6 +7,8 @@ class UserRegistrationForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(label='Email', max_length=35, min_length=5,
                              widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    phonenumber = forms.CharField(label='Phone Number', max_length=11, min_length=11,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(label='Password', max_length=50, min_length=5,
                                 widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Confirm Password',

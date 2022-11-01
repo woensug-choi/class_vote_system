@@ -33,12 +33,14 @@ def create_user(request):
         check1 = False
         check2 = False
         check3 = False
+        check4 = False
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password1 = form.cleaned_data['password1']
             password2 = form.cleaned_data['password2']
             email = form.cleaned_data['email']
+            phonenumber = form.cleaned_data['phonenumber']
 
             if password1 != password2:
                 check1 = True
@@ -52,14 +54,18 @@ def create_user(request):
                 check3 = True
                 messages.error(request, 'Email already registered!',
                                extra_tags='alert alert-warning alert-dismissible fade show')
+            if User.objects.filter(first_name=phonenumber).exists():
+                check4 = True
+                messages.error(request, 'Phone number already registered!',
+                               extra_tags='alert alert-warning alert-dismissible fade show')
 
-            if check1 or check2 or check3:
+            if check1 or check2 or check3 or check4:
                 messages.error(
                     request, "Registration Failed!", extra_tags='alert alert-warning alert-dismissible fade show')
                 return redirect('accounts:register')
             else:
                 user = User.objects.create_user(
-                    username=username, password=password1, email=email)
+                    username=username, password=password1, email=email, first_name=phonenumber)
                 messages.success(
                     request, f'Thanks for registering {user.username}.', extra_tags='alert alert-success alert-dismissible fade show')
                 return redirect('accounts:login')
