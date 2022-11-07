@@ -37,9 +37,7 @@
             <div>
                 <ul style="padding-left:20px; font-size: 25px">
                 {% for attr in comments %}
-                    {% if forloop.counter < 11 %}
-                        <li>{{ attr }}</li>
-                    {% endif %}
+                    <li>{{ attr }}</li>
                 {% endfor %}
                 </ul>
             </div>
