@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib import messages
-from .models import Poll, Choice, Vote
+from .models import Poll, Choice, Vote, Comment
 from .forms import PollAddForm, EditPollForm, ChoiceAddForm
 from django.http import HttpResponse
 
@@ -207,22 +207,22 @@ def poll_vote(request, poll_id):
     #         request, "No choice selected!", extra_tags='alert alert-warning alert-dismissible fade show')
     #     return redirect("polls:detail", poll_id)
     
-    if Choice.objects.filter(poll=poll).get(choice_text=choice_id): # if the choice 
-        # if user vote exists
+    if Choice.objects.filter(poll=poll).get(choice_text=choice_id): # if the choice is submitted
+        # check if user vote exists
         user_votes = request.user.vote_set.all()
         qs = user_votes.filter(poll=poll)
         if qs.exists():
             user_votes.delete()
-        vote = Vote(user=request.user, poll=poll, choice=Choice.objects.filter(poll=poll).get(choice_text=choice_id))
+        vote = Vote(user=request.user, poll=poll, \
+                    choice=Choice.objects.filter(poll=poll).get(choice_text=choice_id))
         vote.save()
+        comment = Comment(poll=poll, comment_text=request.POST.get('comment'))
+        comment.save()
         return render(request, 'polls/poll_result.html', {'poll': poll})
-    else: # if the noice is new
+    else: # if the choice is new
         messages.error(
             request, "Wrong setting! Add choices from 0 to 10", extra_tags='alert alert-warning alert-dismissible fade show')
         return redirect("polls:detail", poll_id)
-
-    return render(request, 'polls/poll_result.html', {'poll': poll})
-
 
 @login_required
 def endpoll(request, poll_id):

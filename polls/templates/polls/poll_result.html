@@ -41,6 +41,16 @@
                 </li>
                 {% endfor %}
             </ul> -->
+            <ul class="list-group">
+                <br>
+                <h4> 5 Latest Comments : </h4> <br>
+                {% for comment in poll.comment_set.all reversed %}
+                    {% if forloop.counter < 6 %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ comment.comment_text }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
             <a class="btn btn-primary mt-3" href="{% url 'polls:list' %}" role="button">Back To Polls</a>
         </div>

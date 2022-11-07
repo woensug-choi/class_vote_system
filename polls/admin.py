@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Poll, Choice, Vote
+from .models import Poll, Choice, Vote, Comment
 
 
 @admin.register(Poll)
@@ -22,3 +22,10 @@ class VoteAdmin(admin.ModelAdmin):
     list_display = ["choice", "poll", "user"]
     search_fields = ["choice__choice_text", "poll__text", "user__username"]
     autocomplete_fields = ["choice", "poll", "user"]
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["comment_text", "poll"]
+    search_fields = ["comment_text", "poll__text"]
+    autocomplete_fields = ["poll"]
