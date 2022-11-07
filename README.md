@@ -20,6 +20,12 @@ https://github.com/devmahmud/Django-Poll-App
     iptables -P FORWARD ACCEPT
     iptables -F
     ```
+- 포트 포워딩 (80 to 8080)
+
+    ```
+    sudo iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 80 -j REDIRECT --to-port 8080
+    sudo netfilter-persistent save
+    ```
 
 - Git clone
 
