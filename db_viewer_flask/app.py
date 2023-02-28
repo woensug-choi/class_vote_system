@@ -3,7 +3,7 @@ import sqlite3, time
 
 # Connect to sqlite database
 def update_database():
-    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
+    conn = sqlite3.connect("/home/woensug/class_vote_system/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM polls_poll")
@@ -11,7 +11,7 @@ def update_database():
 # conn.close()
 
 def resetVotesComments():
-    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
+    conn = sqlite3.connect("/home/woensug/class_vote_system/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("DELETE FROM polls_vote")
@@ -56,7 +56,7 @@ def subpage(class_name):
         if item[1] == class_name:
             classID = item[0]
     # Get Votes from sqllite
-    conn = sqlite3.connect("/home/ubuntu/Class-Vote-System/db.sqlite3")
+    conn = sqlite3.connect("/home/woensug/class_vote_system/db.sqlite3")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM polls_vote")
